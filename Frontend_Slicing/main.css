@@ -6,7 +6,6 @@
     --theme-color-yellow: yellow;
     --theme-color-black: black;
     --theme-color-white: white;
-    /* I am aware that css variables are not compatible with IE, so in a real world app we'd propably don't want to use them...yet */
 }
 
 html,
