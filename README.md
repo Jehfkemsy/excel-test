@@ -1,4 +1,4 @@
-# excel-impact-interview
+# Execel Impact Test
 
 ## Demo (not live)
 - [Front-end Slicing](https://streamable.com/dt07w)
