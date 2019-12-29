@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The title</title>
+    <meta name="description" content="The description">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+    <link rel="icon" href="./integration-test_files/favicon.png">
+    <link href="integration-test_files/bootstrap.css" rel="stylesheet">
+    <link href="integration-test_files/main.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="./integration-test_files/ie9.js" type="text/javascript"></script>
+    <link href="./integration-test_files/ie8.css" rel="stylesheet"/>
+    <![endif]-->
+    <script>
+        /**
+         * There are 7 @TODO in this file. Please read each one of them as they provide instructions of what do to.
+         * Please complete each @TODO and once you do, save your work, zip it, and submit it via the questionnaire.
+         *
+         * Good luck!
+         */
+    </script>
+    <style>
+        /* ********************************************************************************
+         * @ANSWER 7
+         * usually we don't want to use !important because it can make our css hard to debug
+         **********************************************************************************/
+        
+        .state-list-item p a:hover {
+            color: #e47516!important;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div id="notice-enrollment" style="display: block;">
+                <div class="notice">
+                    <div class="enrollment-time-left"><em>Only <span id="notice-days">@TODO</span> days</em> left during health insurance open enrollment!
+                    </div>
+                    <div class="enrollment-info">Open Enrollment Period<br>BEGINS: November 1st &nbsp;-&nbsp; ENDS: December 15th
+                    </div>
+                    <div class="notice-action"><a id="notice-close" href="#">Close</a></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <script type="text/javascript">
+                /**
+                 * @TODO 
+                 * develop a script here that would show  in an animated fashion the dropdown above
+                 * from November 1st to December 15th, otherwise the dropdown show remain hidden.
+                 * Also, please update the counter in the ID "notice-days" with the right amount of days until December 15th
+                 * On December 15th within the class "notice" it should say "TODAY IS THE LAST DAY OF OPEN ENROLLMENT"
+                 *
+                 * @TODO
+                 * develop a script that makes it so that check the #notice-close button is clicked, the notice hides
+                 */
+
+                /******************************************************
+                 * @ANSWER 1 & 2
+                 ******************************************************/
+                const closeBtn = document.getElementById("notice-close");
+                closeBtn.addEventListener("click", hideNotice);
+                displayNotice();
+
+                /**
+                 * Display the notice if conditions are met
+                 * @returns void
+                 */
+                function displayNotice() {
+                    const start = new Date("November 1, 2019 0:0:0");
+                    const end = new Date("December 15, 2019 23:59:59");
+                    const today = new Date();
+
+                    if (today - end > 0 || today - start < 0) {
+                        return hideNotice();
+                    } else {
+                        setNoticeDays(today, end);
+                    }
+                }
+
+                /**
+                 * Hides the notice
+                 * @returns void
+                 */
+                function hideNotice() {
+                    const element = document.getElementById("notice-enrollment");
+                    element.style.display = "none";
+                    // this could be optimized so that when user go to another page come back they don't see the notice again...
+                }
+
+                /**
+                 * Sets the days left for the notice
+                 * - Note: we are not doing any validations here since we are already doing that in @showNotice
+                 * @param {*} today
+                 * @param {*} end
+                 * @returns void
+                 */
+                function setNoticeDays(today, end) {
+                    const element = document.getElementById("notice-days");
+                    const milliseconds = end - today;
+                    const days = Math.ceil(milliseconds / (1000 * 60 * 60 * 24));
+                    element.innerHTML = days; // here we could optimize to update the days within a certain interval
+                }
+            </script>
+            <div class="container">
+                <div class="navbar-header IE8-p20">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+                </button>
+                    <a class="navbar-brand logo-title" href="#"> <span class="first-logo-title">SomeSite.com</span><br><span class="second-logo-title">GOOD AT SELLING INSURANCE</span></a>
+                </div>
+
+                <div class="navbar-collapse collapse top-phone-number">
+                    <span>Need a quote? Call toll free:</span><br> <span class="top-phone-number-hours">Mon - Sat 8 AM - 8 PM EST</span><span><span class="ringpool brackets" >(800) 000-0000</span></span>
+                    <script>
+                        /**
+                         * @TODO
+                         * Implement a call to the endpoint
+                         * https://api.excelimpact.com/v1/calls/number/null/null/null/lifeplanrate.com
+                         * Get the phone number generated, and display it on all the elements .ringpool
+                         * Be careful. Some elements need to be displayed with brackets and some with dashes.
+                         */
+
+                        /******************************************************
+                         * @ANSWER 3
+                         ******************************************************/
+                        addPhoneNumber()
+
+                        /**
+                         * Get the phone number from the API and then display it
+                         * @returns void
+                         */
+                        function addPhoneNumber() {
+                            let phoneNumber = "1-800-000-000";
+                            const API_URL =
+                                "https://api.excelimpact.com/v1/calls/number/null/null/null/lifeplanrate.com";
+                            const Http = new XMLHttpRequest();
+                            Http.open("GET", API_URL);
+                            Http.send();
+
+                            Http.onreadystatechange = e => { //we can do error handling and stuff here if we wanted...
+                                const phoneNumber = Http.responseText;
+                                displayPhoneNumber(phoneNumber);
+                            };
+                        }
+
+                        /**
+                         * Add phone number to our html elements
+                         * @param {*} phoneNumber
+                         * @returns void
+                         */
+                        function displayPhoneNumber(phoneNumber) {
+                            const elements = document.getElementsByClassName("ringpool");
+
+                            for (let index = 0; index < elements.length; index++) {
+                                const element = elements[index];
+                                if (element.classList.contains("brackets")) {
+                                    element.innerHTML = `(${phoneNumber.substring(
+                                3,
+                                6
+                            )}) ${phoneNumber.substring(7, 15)}`;
+                                } else {
+                                    element.innerHTML = phoneNumber.substring(1, 15);
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+                <!--/.navbar-collapse -->
+            </div>
+        </div>
+    </header>
+    <div class="main-widget-container">
+        <div class="blackout" id="blackout"></div>
+        <div class="jumbotron homepage">
+            <div class="container padding-left-none">
+                <h1 class="text-bold landing-margin main-widget-heading IE8-p16">HEALTH INSURANCE
+                    <script>
+                        /**
+                         * @TODO
+                         * Print year here
+                         * When the month is november or december, please show the next year
+                         * when the month is earlier than november, print the current year
+                         */
+
+                        /*
+                         * Sets Insurance year
+                         * @returns void
+                         */
+
+                        /******************************************************
+                         * @ANSWER 4
+                         ******************************************************/
+                        setInsuranceYear()
+
+                        /* Sets the current insurance year
+                         * @returns void
+                         */
+                        function setInsuranceYear() {
+                            const date = new Date();
+                            let year = date.getFullYear()
+                            const month = date.getMonth()
+                            if (month > 9) { // if it's pass october
+                                year += 1;
+                            }
+                            document.write(year);
+                        }
+                    </script>
+                </h1>
+                <div class="col-xs-12 col-md-6 subheading-margin form-gray IE8-zipcode-input-div padding-left-none">
+                    <h2 class="new-color-h2">Enter zip code &amp; compare rates to<br>see how much you can save!</h2>
+                    <form id="main-widget-form" action="#" method="GET" onsubmit="return false" class="text-align-center">
+                        <input class="lg-input input-top" name="zip" type="tel" placeholder="ENTER ZIP CODE" id="zipcode" maxlength="5" required="" autofocus="">
+                        <button class="lg-button btn btn-primary btn-main btn-main1 btn-top" type="submit" id="submitMainForm">Start My Quote <span class="glyphicon glyphicon-play"></span></button>
+                        <div class="col-xs-12 col-md-8 text-center security-widget-form">
+                            <img class="security-logos-tiny" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIcAAAAjCAMAAACJtOnAAAACWFBMVEVHcExPT08zMzN2dnZeXl4wMDBTU1N7e3t6enpqampxcXF9fX1SUlJQUFBcXFxWVlbJycnBwcGIiIjV1dV0dHRNTU22trZRUVGFhYVlZWVnZ2diYmJtbW3///9vb29SUlJMTEyNjY2QkJA+Pj6Xl5ejo6OdnZ1qamrPz8/p6em5ubnIyMhLS0vS0tLExMSamprMzMyrq6uSkpKVlZWCgoJJSUnz8/NZWVmxsbHf39+8vLxZWVlUVFRUVFTk5OTc3NxKSkpdXV04ODihoaH29vaPj49aWlp/f39EREQ0NDRUVFRTU1NJSUmlpaXu7u7w8PCmpqaurq5XV1evr69bW1tPT0/8/PzY2NgvLy+zs7NwcHBpaWn5+fmoqKhLS0tNTU3n5+eRkZFHR0ejo6PAwMB8fHyMjIxPT0+KioqFhYVISEigoKCoqKiEhIRubm5XV1dTU1Pi4uKFhYVmZmZ1dXVeXl6FhYVubm5dXV1tbW2dnZ1FRUWLi4uenp49PT1hYWF8fHxlZWUlJSVycnJhYWFeXl5hYWFDQ0NRUVGxsbF2dnZ7e3uIiIhGRkZ+fn4cHByysrKUlJRlZWVZWVmHh4eKioqdnZ3Pz89iYmJBQUGCgoJ8fHxhYWF1dXWAgIB2dnaGhoaLi4tvb2/FxcVMTEyNjY2Dg4OPj49+fn5XV1eenp5YWFhkZGSgoKBSUlIzMzNJSUlubm65ubmYmJiKioqVlZWNjY27u7uurq7x8fH///+xsbF2dnYvLy88PDxKSkrAwMC4uLiwsLDl5eXo6OhOTk7///+8vLzgcUbyAAAAyHRSTlMAzE/m5jzU5ubm5ubM5ubm5ubm5ubU5szm5ubm5ubm5szm5ubm5eZd5ubm5ubm5ubm5ubm5ubmwebm5ubL5ubmzKzmJuYC5ubm5tS21Abm5ubmyBy81Obm5uaio+YUEebmDuY4DFcfcGMpBubmfHpJweZONuZXazOjmDHVQUrXvGar5o1uypIr1imCfDQkp+Y+b4Oz0oaM1LXYnIxh1L67xhRP002pO1dxMuE8fMQcSrxXjtHi5LvizszGweVBXdeWxdvGzMrKs+5J0NwAAAh4SURBVFjDxVj3UxtJFtbc6JTTjOIoaxRWIJRQQNFIQihgWSAhECYYkXMQh0mGBRMMtnGOa69z3HLYvLXpcvq3riWEffYPW4vKVf409ebNq5qer7q/9/q1CIQPg9cD1//76MajX64PvCZ8NNS/vnYjLNtD+Mb1cx+Lx+ePOmWtOa7JY+JWtMo6kc2PQ+OssbXV+Gpyant7+8Xkqyx42Kgvd6wjp1cGy50NU9hpnTxWejo2mXKGDS/L5VF36XaZPM5p3Z2pof8LbKY689rtMqdjeDr9vKusVyc9Tm7HO6rt4DqRy+UJfuXmiZbpjeVyXr1rCKem3ok8ToUNd0fLEkd7YofE5wfXDr42o/c5TvMX74S2zU7O1WNl8Di2VsNvIDXwE6TF5Z4DTgfgUaF5j4emgnO/LB6X0y0kEqmB1HJidfiAKhm9a3B/f2706aXrT56cP3/+2tr86Lnva8tblwebNXxSEQ0naiYOOCH3TNzvnjyqrTUiVp3WKvAgf7/1nd50ryx97J4s8SCRdg4f8OV7SKU278y5jSaBdcw8Xmmo5WoFyL3y8mV4OrFP5KA8Fl3ccDhn0MFEhcPhYPM0lcac3nqyzJ1q5iafXxaPqR+cMqdLHIuxJFJUihFjarZNX+G+OjQ1NfX4D78Dj6feSPrI8tKDkUlGoqWBRGr5CgSmGQwIgoTTl/sJdb6CLxRmhkEFL4YhRrDvLY2jnTILMSSh2AUqkTWqckXJWIhd2ZkUyL2RCIsowahSCvm3QJm985f9ot7e/pTQM9PB5zckijo9zEivZjJCKDABeAjTmUwNBAUuEo4zGFtbW2kIqmnez7RvwzJzSEE1a6LmlMdTmdKQNTapP6RpTWq7Y7FYr6NbwSZSfxtS6pfFwZrPQvyFgR7CyNl0wjdR+MRh4amenp7dDHQF8FA+7+l5MOALXCMcFzJu/PTTv64qoZXScm66w6I2otZOPmo0GhAEMektVlg0RmwTOfNwWzweD6ljvVUR4luwihdx3xZvkq/2tJHh8/npM7uErtv8xTrCHo/CrSPQAXgEwIoQBtOB54CH758///yfHwNQaWGO/ViBt/FoUl0uj1QWIfBwTLicxmvTOJHQetv6elscMGGzmd4I0x+JKBQRNpPtV0Qifr+iYBVshT9C/Kyojs8ZLQ2gmHb09T87P0PY4xGcm3t+ijF9EfCAOubmJoPQyWawLunb1679sPXvs0f2eBzXH417RSJNY0U+K9BVqwBQAYKIUDs7ZMhRL1yI4TYNMWZuGh+LRFLk7m5Vk4Jq1aZwPwvEcC+T7tK66P5IkUf9wwwfKHTns9sXVy7uVdPDRUEqoWBzQafAgZRCoFmgjwCAMl1kC3qd+yaxmiIm55OH9NWwHKaT4VnchCAuGpWihnO6C22HVGpHXGBkYclqiSwpHWvVM/MpdrRTShmXwE4R5lT5tUm2/9PiVwcnGIWcTVwZ7uqvL/G4MjQ09DIDZZqbfcIF4G+kA4v1YD4uDw1tLgoDlwiDuyO7/eYmtRclN+UOZTU8Hu4xWfQWvcHA8aBRkb83i1xgy0IX1uPJ6jgrHKU3ahqbuCmJjKqmd3oRrhrr5OHObrU1zyzxqO9aq0nsNCSCM/vZWNLHkk+51uxTFvRBWFMK6x5C6QfF0qVcPd03MNDX960qjkmlAnfWEIUpHr2Rm83qATgqqlQSMtbG21xWGxqymao9KUe1oYrGtNi7KwU2g623Uq9DrN0Yp0lnoVSVeBAIPbsbDfwTE/1veECnigL2QZPN6cBcQUSTEHT6IeQryPhBB1Sz0r/xcmVJi8flOGw1cgQwz67P1rrz+Voul2sUzeLSULZRvb6u7o2pQ0ws4mD6mcw9Q8T8DqbCS2T3Mru7JRiziqn49E09Gtxk3Lr45ukwo6a9vf2kUAj1NfugVeBfEUKrPccZvo729o4aoXJjqevMmdNL/7CGiBhNA+oGlWp3JxudjcmcO1ur59EwljqZVLfFQbqEYo5eR1UVE1wOJvhq0VY5egu2CvgKhf8tD0LPs5G3D9NCSKkE6pweJtQBxRb9K32E4YBQWfCFp5r7l+u6lvte6f1+PEpvQgxRrwR3uVyp8WzenWzCRCoFsZWjVquJHovAK0ZMBg+bZ+Cm/BQTxkzBsAkx6Zhkk4mT8gN4CzwG51/8CWD+6fwX4PZivtCSff1JAV/PAGpdRfeTgWWQSSMlfx6kbfPISN2RZ4d0VRIx3W7KZ5vIVDFVjImyxpxRQhZLqsaceKyq12KhpnhwWGe3Uw8JyEkdGpYrsiq0kY530lVOHLWD6h9hFfL2bLDmZjAYXFhYAPZmTfDMQRqoGzlKBBXJyUZwkKvIAXFkLZZKiRhFI7DRImF7FVq3yUykuAUpmr2Cp+BJ0TzNy0FFbt04V47mXSlqsZ6eAGNN3Gpf2Grhg1+iZWuh/daB+qABmZtOJIqiVG1OJnPmjRzPONxNEbGIdEMeZ2ESCTWqyzbBRrOKGq2leOkwyqVFEFRk1BnH2CojrqJKMAwT/7U03FwmAbbaRGbuwOewb2R5HLNLeXIJ3WauRnlEhZgnt2O4pSKFFbawo1oRoqFYtBqbXOCycXCYo7UhsMqA2QxS1KIzVxc2Ojm/tO8vdfjAnspY7Dty4Hb9G1muSR6xi8R0jIWxxHQqWHLpuDtZKZfTaDQ5xTymksLVGrNNztNoUanUPjYmktKraTwbhWLTmHE5wOzO++1QGS3UpXzSoAMkULFEh2EoCyPr9M6klcaDC+ABMvAsrWCLbsHygAGxUhiAPP0hjtkjf8vWGgTjNpUIFaHVWoEl59TjvPeaH0rx2nffRfTXP3+YA//I9V8EoHhYrUcrPaBUCPDZWcrvB7z65Qf762F0fubMnTt3rl49f+nhHw+I7cIR439rGRq1T3OlHgAAAABJRU5ErkJggg==">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-md-6 hidden-xs hidden-sm plans-logos IE8-plans-logos">
+                    <div class="plan-logos-box">
+                        <p class="plan-logos-paragh">Your area is
+                            <img class="plans-pin" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAdCAYAAABIWle8AAACqklEQVRIia2UbUgTcRzH3WbqTIu0KCuiTHq0J4JIkqAC3yhlVL6IggqDqF4E2ZxKUY7lE0iGSWmzF0k6wacowigzS0OHbZY4mWCpPVitpblN19x9u1u129/d3U7yxQ+Ou+997ve/3/f3DQAQMFMlTkhR/wFzOmbB1BIH7anryI/VQxU1gJwYI8oP3UPH3RTYR8LFwczvlqI0qQYK2SQu0Ld8i0Lu2i70NsUDlABs2LQCeWve8EDIujjPjNe1idww+2gYinY883kpPWgClyK/IXP2mC8w4isG9bG+sOfFJ91H8D5O2b5q9DTuhnkoCgOdG3FfmY0MOQktTawD5ZKwMJdTirx1BkJUmVqCX+MhU6YqQXtFCpRym0eXQV9/6F7Nwob7liMz1OoRqJb148enBZyTdjllKD9QSXy4+dppFva2LgkKqcvz8HZytbsLPk+1lqQSsNrzuSzMUHWQ+F8Vx8oEDdqhOULAtGeKWFi/bguUwROehwXrDRi3hvLC6tNyCFijWsHCbLSjLy8aYu0Q6MCrO4c5QZ+NMcheMuCldaL7QQJpjYZ0FfE1pdyKl7eOw2qZ616vCZscfS+24+pKI6HL39BJTz2IhH0xRSMrbIQQMkPJWdWD4vhmFG5tdxt46mq1aY76mtY1KUXliZuiVulfqekux8wR3Lv5XreJXpuf4mASCk8KzvEvOtOdJlkrCnaFHoLl40LhCGJyTCF1+oXVp6n959mkMxA39jwSBGWFj+D74GJxSauv2UuHI393TAhwrBs3zGELQVFcC3dXcyzeGeYfxlQbs38Sygem2V9FD0o2PZjDHgx1tIk0MX30vtZtfO/ww5hqKjxLpEnxrsd0qvLqhWGjw/NRsFn3d4IW9D7dKaQXhv0BRqLrYYI7moUCUxRsGjWjsN9MBvuATQyFyAAAAABJRU5ErkJggg==">
+                            <span class="plan-pin-span" data-location="city">Beverly Hills</span><span class="plans-orange-color">, </span><span class="plans-orange-color" data-location="state">CA</span></p>
+                    </div>
+                    <div class="plans-region">
+                        <p class="plans-region-paragh"><span data-location="state">CA</span> has a total of <span class="plans-orange-color">33 </span>on-exchange plans on SomeSite.com with these providers:</p>
+                    </div>
+                    <script>
+                        /**
+                         * @TODO
+                         * Please integrate with the following endpoint via a GET request
+                         * https://api.excelimpact.com/v1/geo/ips
+                         * This endpoint will return your geolocation. Please use that information to replace all elements with data-location in it. There should be 3 of them
+                         */
+
+                        /******************************************************
+                         * @ANSWER 5
+                         ******************************************************/
+                        setUserLocation()
+
+                        /*
+                         * Get and update user location
+                         * @returns void
+                         */
+                        function setUserLocation() {
+                            let myLocation;
+                            const API_URL =
+                                "https://api.excelimpact.com/v1/geo/ips";
+                            const Http = new XMLHttpRequest();
+                            Http.open("GET", API_URL);
+                            Http.send();
+
+                            Http.onreadystatechange = e => {
+                                const response = Http.responseText;
+                                myLocation = JSON.parse(response)
+                                const citiesElements = document.querySelectorAll('span[data-location][data-location="city"]')
+                                const stateElements = document.querySelectorAll('span[data-location][data-location="state"]')
+
+                                for (let index = 0; index < citiesElements.length; index++) {
+                                    citiesElements[index].innerHTML = myLocation.city;
+                                }
+                                for (let index = 0; index < stateElements.length; index++) {
+                                    stateElements[index].innerHTML = myLocation.state
+
+                                }
+                            }
+
+                        }
+                    </script>
+                    <div class="div-images plans-images">
+                        <a href="#" onclick="alert('Look for the @TODOs in the HTML!')"> <img class="hidden-xs carrier-logos-new images humana img-thumbnail" src="./integration-test_files/f9c2741.png"> </a>
+                        <a href="#" onclick="alert('Look for the @TODOs in the HTML!')"> <img class="hidden-xs carrier-logos-new images gerber img-thumbnail" src="./integration-test_files/0a5aa86.png"> </a>
+                        <a href="#" onclick="alert('Look for the @TODOs in the HTML!')"> <img class="hidden-xs carrier-logos-new images bluecross img-thumbnail" src="./integration-test_files/32bad5d.png"> </a>
+                        <a href="#" onclick="alert('Look for the @TODOs in the HTML!')"> <img class="hidden-xs carrier-logos-new images aetna img-thumbnail" src="./integration-test_files/86ef502.png"> </a>
+                    </div>
+                    <div class="row helped-people">
+                        <p>We've helped <span id="mycounter">9999</span> people in your area!</p>
+                        <script>
+                            /**
+                             * @TODO
+                             * Please integrate with the following API:
+                             * https://www.random.org/integers/?num=1&min=1000&max=9000&col=1&base=10&format=plain&rnd=new
+                             * This API will generate a number from 1000 to 9000. Use that number and overwrite the one in #mycounter
+                             * Save the result in a cookie. When the customer lands again, make sure to show the value from the cookie
+                             */
+
+                            /******************************************************
+                             * @ANSWER 6
+                             ******************************************************/
+                            getNumber()
+
+                            /*
+                             * Fetches and displays Phone Number 
+                             * @returns void
+                             */
+                            function getNumber() {
+                                let number = isCookieAvailable()
+
+                                if (number) {
+                                    updateNumberElementValue(number)
+
+                                } else {
+                                    const API_URL =
+                                        "https://www.random.org/integers/?num=1&min=1000&max=9000&col=1&base=10&format=plain&rnd=new";
+                                    const Http = new XMLHttpRequest();
+                                    Http.open("GET", API_URL);
+                                    Http.send();
+
+                                    Http.onreadystatechange = e => {
+                                        number = Http.responseText
+                                        updateNumberElementValue(number)
+                                        if (number) {
+                                            document.cookie = `mycounter=${number};`
+                                        }
+
+                                    }
+                                }
+
+                                // update html element's value
+                                function updateNumberElementValue() {
+                                    let element = document.getElementById("mycounter")
+                                    element.innerHTML = number
+                                }
+
+                                // checks whether or not we have a cookie
+                                function isCookieAvailable() {
+                                    let myNumber = document.cookie
+                                    if (!myNumber) return
+                                    let allCookies = myNumber.split(";")
+                                    for (let index = 0; index < allCookies.length; index++) { // we may have more than one cookies... even tho we only have one for now
+                                        const keyPairValue = allCookies[index].split("=")
+                                        if (keyPairValue[0].trim() === "mycounter" && keyPairValue[1].trim()) {
+                                            return keyPairValue[1]
+                                        }
+                                    }
+                                }
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="version" id="version" value=""> <input type="hidden" name="complete" id="complete" value="/complete"> <input type="hidden" name="fas" id="fas" value="/fas">
+        <input type="hidden" name="form" id="form" value="/form">
+    </div>
+    <div class="jumbotron homepage other-designs">
+        <div class="container">
+            <h3 class="text-muted text-bold text-align-center margin-bottom-none brown-font">
+                <span>*** Please review the @TODO in the HTML ***</span><br><span class="text-orange-color">
+            <span>Please Call </span> <span class="ringpool">1-800-000-0000</span></span>
+            </h3>
+            <p class="text-align-center">Speak with a licensed agent and get expert advice on choosing a plan that's right for you</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row content">
+            <div class="col-md-offset-3 col-md-1 IE8-states-tables-location-icon">
+                <img class="hidden-sm hidden-xs big-pin" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAABFCAMAAAACVCScAAAAMFBMVEX/dQD/////oWv/9/T/xqr/gSb/z7j/8On/jEL/4NH/tI3/l1j/vZz/6N3/q33/18VKRJ+RAAABiklEQVRIx9WW3XIDIQiFKf67rvv+b9tpEiMo6HamM51wab6cEAEP8PWrgE/AzV38tOjgJ45qwwY3NgIN9CvcOhjjSBoeDpCiGBE/HchxGAH3oEYME65qM/2GmxUNgAOOsA7LcJ64Q2sLF3CB4rQ40beS0QQzwf10/vwCLUToODnmVa9D9g88iNqDfnzjPZc4Nm7i2TzwPN4XCWRpAj+aGpz8sm04z49H/191wlGaN/rhX+NmxnsLzHi/yTLfzDXhZb6ZomdD5iA1/AJVviuBebdYT96dSpGe3fTELcg8bezUcTaptrVZqNO0vq7OskHLV0rJVzZ9ieJhM9ntylph8gb3HN/Ix/EVy3fEOx7uiJMnFfdvGMWTTjsjvO+4F6d42oszszkUvMjepPlHUJwvinTWjNLvxAdfjRvx0YYF/NRxwdBwtRPM8mm5Qril+LSglAG/1nhQOldbf7I4FioeVuLCcpUX4tIuJnauvunhwgdXBjCLi3skquIi/nL2fHdLNRax+o/dsP8F/wb7QwyM727rUgAAAABJRU5ErkJggg==">
+            </div>
+            <h2 class="hidden-sm hidden-xs state-table-title"><span class="state-table-title-span">CLICK YOUR STATE BELOW</span>
+                <p class="state-table-title-p">To get <span class="font-orange">FREE</span> health insurance quotes &amp; save!</p>
+            </h2>
+
+            <ul class="state-container clearfix hidden-sm hidden-xs">
+                <script>
+                    /**
+                     * @TODO
+                     * Please make it so that when the mouse is over the state name, the state name is highlighted in
+                     * #e47516. I'm writing the comment in Javascript but it doesn't mean you need to complete it with Javascript
+                     * if you can think of a better way.
+                     */
+                    //***************** ADDED THIS IN A STYLE TAG IN THE HEADER FOR EASE OF ACCESSING *****************
+                </script>
+                <li class="state-list-item">
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Alabama</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Alaska</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Arizona</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Arkansas</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">California</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Colorado</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Connecticut</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Delaware</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Florida</a></p>
+                    <p class="last"><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Georgia</a></p>
+                </li>
+                <li class="state-list-item">
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Hawaii</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Idaho</a>
+                    </p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Illinois</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Indiana</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Iowa</a>
+                    </p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Kansas</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Kentucky</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Louisiana</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Maine</a>
+                    </p>
+                    <p class="last"><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Maryland</a></p>
+                </li>
+                <li class="state-list-item">
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Massachusetts</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Michigan</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Minnesota</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Mississippi</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Missouri</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Montana</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Nebraska</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Nevada</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">New Hampshire</a></p>
+                    <p class="last"><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">New Jersey</a></p>
+                </li>
+
+                <li class="state-list-item">
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">New Mexico</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">New York</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">North Carolina</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">North Dakota</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Ohio</a>
+                    </p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Oklahoma</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Oregon</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Pennsylvania</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Rhode Island</a></p>
+                    <p class="last"><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">South Carolina</a></p>
+                </li>
+                <li class="last state-list-item">
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">South Dakota</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Tennessee</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Texas</a>
+                    </p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Utah</a>
+                    </p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Vermont</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Virginia</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Washington</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">West Virginia</a></p>
+                    <p><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Wisconsin</a></p>
+                    <p class="last"><a href="#" onclick="alert('Hi there! There is a @TODO on line 151')">Wyoming</a></p>
+                </li>
+            </ul>
+            <div style="text-align: center;" class="hidden-sm hidden-xs col-sm-12">
+                <img class="hidden-xs state-table-norton-logo" src="data:image/png;base64,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">
+                <img class="hidden-xs state-table-norton-logo" src="data:image/png;base64,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">
+            </div>
+        </div>
+        <hr class="not">
+        <div class="row">
+            <div class="navbar-collapse collapse padding-none"></div>
+            <!--/.nav-collapse -->
+            <div class="tab-target" id="target1">
+                <h2>How do I Buy Health Insurance?</h2>
+                <p>Bacon ipsum dolor amet cupim landjaeger meatloaf bacon, t-bone shank ground round. Bresaola shank fatback beef hamburger landjaeger, bacon pork chop t-bone short ribs pig. Tri-tip salami chuck pork loin tenderloin beef brisket biltong
+                    jerky boudin cow. Short loin flank bresaola sirloin hamburger ham hock swine chuck t-bone ball tip. Ham turkey drumstick ham hock, meatball boudin tri-tip capicola ball tip short loin. Drumstick shankle ham hock jowl pork loin short
+                    loin tri-tip frankfurter tenderloin.</p>
+                <p>Pig landjaeger kielbasa tongue, cow strip steak short ribs spare ribs chicken ham rump corned beef venison chuck. Venison meatloaf strip steak turkey ham andouille, chuck buffalo. Kevin shank shankle ribeye pastrami capicola porchetta
+                    turducken meatloaf rump beef ribs. Cow kielbasa kevin flank andouille leberkas tail chicken tri-tip shank ham capicola bacon ball tip spare ribs. Ham hock tail swine pork belly tri-tip. Salami ham drumstick spare ribs pork landjaeger
+                    hamburger brisket flank pancetta frankfurter ribeye biltong jerky burgdoggen. Andouille beef ribs jowl doner, meatball turducken short ribs shoulder sirloin.</p>
+                <p>Ground round salami shank pork loin venison landjaeger. Frankfurter shank fatback short ribs, strip steak andouille tenderloin. Boudin rump buffalo, pork tenderloin pig biltong fatback bresaola. Andouille chislic tongue jowl pork loin
+                    cupim. Salami shoulder ribeye cow pork loin andouille chislic, pig ground round t-bone.</p>
+            </div>
+            <div class="tab-target" id="target2">
+                <h2>What is the Healthcare Marketplace?</h2>
+                <p>Doggo ipsum length boy yapper blep such treat, extremely cuuuuuute. Ur givin me a spook borkf the neighborhood pupper ruff, heckin good boys and girls long doggo the neighborhood pupper, doggo snoot. Many pats long woofer fluffer shibe,
+                    big ol. Maximum borkdrive you are doin me a concern heckin good boys and girls shibe such treat doing me a frighten, very taste wow snoot tungg. Dat tungg tho very good spot corgo big ol pupper, pats shoob. Heckin length boy long bois
+                    mlem blep, blop long woofer lotsa pats you are doing me the shock, heckin good boys mlem maximum borkdrive. Clouds bork fat boi adorable doggo yapper very taste wow you are doing me a frighten fluffer, maximum borkdrive you are doing
+                    me the shock noodle horse most angery pupper I have ever seen shooberino heckin. long water shoob what a nice floof vvv. boofers fluffer doggorino. Blop maximum borkdrive stop it fren floofs borkf vvv adorable doggo, long bois woofer
+                    porgo shoober. Mlem doing me a frighten long bois I am bekom fat very hand that feed shibe, blop doing me a frighten.</p>
+                <p>Puppy kitty ipsum dolor sit good dog foot stick canary. Teeth Mittens grooming vaccine walk swimming nest good boy furry tongue heel furry treats fish. Cage run fast kitten dinnertime ball run foot park fleas throw house train licks stick
+                    dinnertime window. Yawn litter fish yawn toy pet gate throw Buddy kitty wag tail ball groom crate ferret heel wet nose Rover toys pet supplies. Bird Food treats tongue lick teeth ferret litter box slobbery litter box crate bird small
+                    animals yawn small animals shake slobber gimme five toys polydactyl meow. Turtle cage lazy cat foot lazy cat groom canary window tooth brush bedding lazy cat pet supplies turtle water dog shake pet supplies kitty. Walk bird harness
+                    wet nose meow harness grooming water dog lol catz water bedding toys bird seed fetch lazy cat. Parakeet scratcher brush biscuit lick dog tooth walk food lazy cat biscuit. Cockatiel Snowball kitten Rover ferret puppy.</p>
+            </div>
+            <div class="tab-target" id="target3">
+                <h2>What’s the "Health Insurance Exchange"?</h2>
+                <p>Pet Food pet supplies gimme five puppy cage food feathers food heel feathers running pet gate walk lazy dog Spike. Good Boy park lazy dog walk kibble Scooby snacks licks canary. Maine Coon Cat walk catch water dog slobber chew scratcher
+                    ID tag litter tuxedo dog house lazy cat park. Dinnertime fetch throw feathers fleas tongue lazy cat lick throw kitten parrot hamster wag tail aquarium chew heel good boy lick feathers cockatiel. Wet Nose food ferret vaccine finch vaccination
+                    Scooby snacks string wagging barky tail head good boy pet gate meow good boy. Commands shake bird biscuit left paw finch bark ferret bark gimme five turtle fur canary. Water puppy dog lick kisses pet supplies slobber cat bird seed.
+                    Food sit biscuit groom tongue cage.</p>
+                <p>Play Dead sit nap lazy dog wet nose Tigger run fast fish lazy cat wagging hamster toy field yawn feathers ferret yawn aquarium.Feathers bird seed food scratcher mouse running teeth licks heel walk pet gate maine coon cat collar twine parakeet.
+                    Roll Over kitty barky critters litter stick window litter box wagging field toy. Whiskers harness biscuit food lick small animals throw meow house train. Bedding field hamster small animals carrier polydactyl groom vaccine. Commands
+                    running gimme five groom slobber run fast head ball litter box biscuit catch run fast roll over. Roll Over litter box tabby pet slobbery play dead kitty roll over small animals barky good boy string kitty fish licks teeth chew drool.
+                    ID Tag barky lick parakeet wet nose ball walk tabby wag tail chirp nest. Spike bird seed water teeth leash ball. Crate pet food stripes carrier drool slobbery tabby dog puppy birds walk roll over bird food Mittens pet supplies.</p>
+            </div>
+            <div class="tab-target" id="target4">
+                <h2>When Can I Sign Up for Health Insurance?</h2>
+                <p>Java chicory, black doppio and roast cream mocha turkish strong. Blue mountain doppio black, chicory, sugar medium: </p>
+                <ul>
+                    <li>single shot a wings blue mountain turkish. Viennese et, cinnamon, turkish lungo qui cappuccino kopi-luwak. Black, dripper, to go medium espresso lungo in, and plunger pot latte sweet redeye. Half and half, galão, single shot wings
+                        beans bar that con panna macchiato dark foam galão.
+                    </li>
+                    <li>To go, est ut affogato, to go crema percolator steamed whipped latte. Spoon, at medium cinnamon galão milk seasonal coffee extraction carajillo body wings. Doppio acerbic con panna plunger pot espresso breve, arabica cream roast galão
+                        decaffeinated.
+                    </li>
+                    <li>To go irish shop affogato, aromatic skinny steamed foam white. Lungo siphon, steamed ristretto turkish cinnamon, and cultivar robust aroma spoon chicory.
+                    </li>
+                    <li>Barista et bar aftertaste, brewed variety filter turkish breve organic. Mug french press rich doppio barista redeye cream.
+                    </li>
+                    <li>Siphon half and half seasonal frappuccino foam robusta cultivar coffee. So froth, aftertaste bar, saucer sugar single shot caramelization aromatic. Espresso, saucer, breve café au lait, id cultivar pumpkin spice doppio viennese frappuccino
+                        doppio.
+                    </li>
+                    <li>Cup white, sit percolator froth turkish, crema wings at carajillo mazagran. Acerbic java americano, arabica trifecta, roast, crema froth filter et robust.
+                    </li>
+                    <li>Est, turkish french press percolator cream lungo milk acerbic. Latte cup, espresso carajillo cinnamon breve frappuccino. Siphon est, so mug cappuccino fair trade sweet.
+                    </li>
+                </ul>
+            </div>
+            <hr style="border-top: 1px dashed #a09c9c;">
+            <div class="secondary-widget">
+                <div class="col-xs-12 col-md-6 col-sm-12 align-center-ln IE8-zipcode-input-div">
+                    <form action="/fas" method="GET" onsubmit="return false;" class="second-form-main">
+                        <p><strong class="second-widget-message">Get a health insurance quote and see how much <br>you can save.</strong></p>
+                        <div class="pt-sm pb-sm">
+                            <input class="lg-input" name="zip" placeholder="enter ZIP" type="tel" id="zipcode2" maxlength="5" required="" onkeypress="return false;">
+                            <button class="lg-button btn btn-primary btn-main ml-sm second-btn" type="submit">start my quote <span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+                        </div>
+                        or call <span class="ringpool">1-800-000-0000</span>
+                    </form>
+                </div>
+                <div class="col-xs-6 col-md-4 hidden-xs">
+                    <p class="hidden-xs hidden-sm"><strong>Looking for another insurance product?</strong>
+                    </p>
+                    <ul class="list-group arrow-list blue-color hidden-xs hidden-sm">
+                        <li class="list-group-item"><a href="#">Health insurance</a>
+                        </li>
+                        <li class="list-group-item"><a href="#" target="_blank">Short Term Health insurance</a></li>
+
+                    </ul>
+                    <br> <br>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-bottom">
+        <footer class="footer">
+            <div class="container">
+                <div class="">
+                    <nav>
+                        <ul class="nav nav-justified nav-top">
+                            <a href="#" target="_blank">Partners</a> <a href="#" target="_blank">Privacy Policy</a> <a href="#" target="_blank">Terms of Use</a> <a href="#" target="_blank">Contact Us</a>
+                        </ul>
+                    </nav>
+                </div>
+                <p class="disclaimer">Fair trade siphon crema extra, viennese qui, foam viennese siphon est so caramelization. Carajillo sit ut extra chicory aged instant crema chicory. Et, dark a cup, cortado, siphon at arabica flavour macchiato. Cream, at, acerbic redeye
+                    iced americano coffee white. To go et, steamed a café au lait, single origin aftertaste frappuccino blue mountain whipped.<br><br>
+                    <span class="pricing">Trifecta, organic, irish grinder foam roast cup extra. Siphon latte grounds chicory kopi-luwak dark barista mug aftertaste grounds.
+            </p>
+        </div>
+    </footer>
+</div>
+<div class="modal bs-example-modal-lg background-modal" id="message-modal-popup" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <div class="elements-container">
+                    <div class="text1">Before you go... We can connect you to a licensed health insurance agent ready to help.
+                    </div>
+                    <div class="text2"><span>Call </span><span class="ringpool">1-800-000-0000</span></div>
+                    <div class="btns-container">
+                        <a href="#">
+                            <div class="btn-message-bg-color" id="submit-button">No, thanks. I'll continue online.</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </div>
+    </div>
+    <input type="hidden" name="Tier" id="Tier" value="1">
+</body>
+
+</html>

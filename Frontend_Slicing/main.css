@@ -1,212 +1,251 @@
 :root {
-  /* Colors */
-  --theme-color-navy: #203b6a;
-  --theme-color-midNavy: #4376d0;
-  --theme-color-lightNavy: #a9b3c4;
-  --theme-color-yellow: yellow;
-  --theme-color-black: black;
-  --theme-color-white: white;
+    /* Colors */
+    --theme-color-navy: #203b6a;
+    --theme-color-midNavy: #4376d0;
+    --theme-color-lightNavy: #a9b3c4;
+    --theme-color-yellow: yellow;
+    --theme-color-black: black;
+    --theme-color-white: white;
+    /* I am aware that css variables are not compatible with IE, so in a real world app we'd propably don't want to use them...yet */
 }
 
 html,
 body {
-  overflow: hidden;
-  background: var(--theme-color-white);
-}
-* {
-  font-family: "Montserrat", sans-serif !important;
+    overflow: hidden;
+    background: var(--theme-color-white);
+    font-family: "Montserrat", sans-serif !important;
 }
 
 .page-container {
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
-  padding: 15px;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 15px 0;
 }
 
 .heading {
-  font-weight: 600;
-  font-size: 38px;
-  color: var(--theme-color-navy);
+    font-weight: 600;
+    font-size: 38px;
+    color: var(--theme-color-navy);
 }
 
 .sub-heading {
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 1.5em;
-  color: var(--theme-color-navy);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.5em;
+    color: var(--theme-color-navy);
 }
 
 .paragraph {
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
-  color: var(--theme-color-lightNavy);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: var(--theme-color-lightNavy);
 }
 
 .clicer-container {
-  width: 100%;
+    width: 100%;
 }
 
 .slicer {
-  height: 100px;
-  width: 2px;
-  background-color: #ffdc17;
-  margin: auto;
+    height: 100px;
+    width: 2px;
+    background-color: #ffdc17;
+    margin: auto;
 }
 
 .section {
-  position: relative;
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
+    position: relative;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .section-header {
-  padding: 25px;
-  text-align: center;
+    padding: 25px;
+    text-align: center;
+}
+
+.section-header h2 {
+    margin-bottom: 15px;
 }
 
 .section-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .card {
-  flex: 1;
-  max-width: 400px;
-  padding: 25px;
-  display: flex;
-  align-items: center;
-  align-self: stretch;
-  flex-direction: column;
+    flex: 1;
+    max-width: 400px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    flex-direction: column;
 }
+
 .card-icon {
-  margin-bottom: 25px;
+    margin-bottom: 25px;
 }
+
 .card-title {
-  font-size: 18px;
-  color: var(--theme-color-midNavy);
-  padding: 0 0 18px;
-  font-weight: 600;
+    font-size: 18px;
+    color: var(--theme-color-midNavy);
+    padding: 0 0 18px;
+    font-weight: 600;
 }
 
 .card-details {
-  text-align: center;
+    text-align: center;
 }
 
 .card-icon img {
-  height: 100px;
-  width: auto;
+    height: 100px;
+    width: auto;
 }
 
 .card .arrow-buttons {
-  color: auto;
+    color: auto;
 }
 
 .review-section-contents {
-  display: flex;
-  justify-content: space-between;
-  padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
 }
+
 .review-section-contents .left {
-  flex: 1;
-  align-self: center;
+    flex: 1;
+    align-self: center;
 }
+
 .review-section-contents .left img {
-  width: 30px;
+    width: 30px;
 }
+
 .review-section-contents .right {
-  flex: 1;
-  align-self: center;
-  text-align: right;
+    flex: 1;
+    align-self: center;
+    text-align: right;
 }
+
 .review-section-contents .right img {
-  transform: rotate(180deg);
-  width: 30px;
+    transform: rotate(180deg);
+    width: 30px;
 }
-.review-section-contents .review-container {
-  flex: 6;
-  font-size: 18px;
-  color: var(--theme-color-lightNavy);
-  margin: 0 10px;
-  display: flex;
+
+.review-container {
+    flex: 6;
+    font-size: 18px;
+    color: var(--theme-color-lightNavy);
+    margin: 0 15px;
+    display: flex;
 }
+
 .review h4 {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--theme-color-navy);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--theme-color-navy);
 }
 
 .review-container img {
-  width: 200px;
-  height: auto;
+    width: 160px;
+    height: auto;
 }
+
+.header-underline {
+    text-decoration: none;
+    padding-bottom: 5px;
+    background-image: url(assets/mock_text_highlighter.png);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: contain;
+}
+
+
 /* MEDIA QUERIES */
+
+@media (max-width: 330px) {
+    .section-header .header-underline {
+        line-height: 22px;
+        background: none;
+    }
+}
+
 @media (min-width: 1024px) {
-  .section-content {
-    flex-direction: row;
-  }
-  .card .card-details {
-    text-align: left;
-  }
-  .review-container {
-    justify-content: center;
-    align-items: center;
-  }
-  .review-container img {
-    margin-right: 35px;
-  }
+    .section-content {
+        flex-direction: row;
+    }
+    .card .card-details {
+        text-align: left;
+    }
+    .review-container {
+        justify-content: center;
+        align-items: center;
+    }
+    .review-container img {
+        margin-right: 35px;
+    }
 }
 
 @media screen and (min-width: 500px) and (max-width: 1024px) {
-  .card {
-    align-self: center;
-  }
-  .heading {
-    font-size: 32px;
-  }
-  .sub-heading {
-    font-size: 18px;
-  }
-  .paragraph {
-    font-size: 16px;
-  }
-  .review-container img {
-    width: 180px;
-  }
+    .card {
+        align-self: center;
+    }
+    .heading {
+        font-size: 32px;
+    }
+    .sub-heading {
+        font-size: 18px;
+    }
+    .paragraph {
+        font-size: 16px;
+    }
+    .review-container img {
+        width: 140px;
+    }
 }
 
 @media (max-width: 500px) {
-  .heading {
-    font-size: 28px;
-  }
-  .sub-heading {
-    font-size: 17px;
-  }
-  .paragraph {
-    font-size: 14px;
-  }
-  .review-section-contents .left,
-  .review-section-contents .right {
-    display: none;
-  }
-  .review-container img {
-    width: 120px;
-  }
+    .heading {
+        font-size: 28px;
+    }
+    .sub-heading {
+        font-size: 17px;
+    }
+    .paragraph {
+        font-size: 14px;
+    }
+    .review-section-contents .left,
+    .review-section-contents .right {
+        display: none;
+    }
+    .review-container img {
+        width: 120px;
+    }
+    .review-container {
+        margin: 0;
+    }
+    .section-header {
+        line-height: 38px;
+    }
+    .card {
+        align-self: unset;
+    }
 }
 
 @media (max-width: 1024px) {
-  .review-container {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .review-container h4:first-of-type {
-    margin-top: 25px;
-    text-align: center;
-  }
+    .review-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .review-container h4:first-of-type {
+        margin-top: 25px;
+        text-align: center;
+    }
 }
