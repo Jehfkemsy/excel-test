@@ -27,7 +27,7 @@
     <style>
         /* ********************************************************************************
          * @ANSWER 7
-         * usually we don't want to use !important because it can make our css hard to debug
+         * usually we wouldn't want to use "!important" because it can make our css hard to debug
          **********************************************************************************/
         
         .state-list-item p a:hover {
@@ -39,7 +39,7 @@
 <body>
     <header>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div id="notice-enrollment" style="display: block;">
+            <div id="notice-enrollment" class="notice-enrollment" style="display: block; overflow: hidden;">
                 <div class="notice">
                     <div class="enrollment-time-left"><em>Only <span id="notice-days">@TODO</span> days</em> left during health insurance open enrollment!
                     </div>
@@ -52,10 +52,10 @@
             <script type="text/javascript">
                 /**
                  * @TODO 
-                 * develop a script here that would show  in an animated fashion the dropdown above
+                 * develop a script here that would show  in an ->>> animated fashion <<<- the dropdown above
                  * from November 1st to December 15th, otherwise the dropdown show remain hidden.
                  * Also, please update the counter in the ID "notice-days" with the right amount of days until December 15th
-                 * On December 15th within the class "notice" it should say "TODAY IS THE LAST DAY OF OPEN ENROLLMENT"
+                 * On December 15th within the class "notice" ->>> it should say -"TODAY IS THE LAST DAY OF OPEN ENROLLMENT" <<<-
                  *
                  * @TODO
                  * develop a script that makes it so that check the #notice-close button is clicked, the notice hides
@@ -64,6 +64,34 @@
                 /******************************************************
                  * @ANSWER 1 & 2
                  ******************************************************/
+                // Animation Object
+                const noticeAnimations = { // here we could add easing functions to make the animations more natural
+                    fadeIn: function(el) {
+                        let max_height = 68;
+                        let height = 0;
+
+                        const interval = setInterval(function() {
+                            if (height === max_height) {
+                                clearInterval(interval)
+                            } else {
+                                el.style.height = `${height += 1}px`
+                            }
+                        }, 5)
+                    },
+                    fadeOut: function(el) {
+                        let min_height = 0;
+                        let height = 68
+
+                        const interval = setInterval(function() {
+                            if (height === min_height) {
+                                clearInterval(interval)
+                                el.style.display = "none"
+                            } else {
+                                el.style.height = `${height -= 1}px`
+                            }
+                        }, 5)
+                    }
+                }
                 const closeBtn = document.getElementById("notice-close");
                 closeBtn.addEventListener("click", hideNotice);
                 displayNotice();
@@ -77,10 +105,13 @@
                     const end = new Date("December 15, 2019 23:59:59");
                     const today = new Date();
 
+                    const element = document.getElementById("notice-enrollment");
+
                     if (today - end > 0 || today - start < 0) {
-                        return hideNotice();
+                        return hideNotice()
                     } else {
-                        setNoticeDays(today, end);
+                        noticeAnimations.fadeIn(element)
+                        today.setHours(0, 0, 0, 0) === end.setHours(0, 0, 0, 0) ? displayLastDayNotice() : displayNumDays(today, end);
                     }
                 }
 
@@ -88,24 +119,38 @@
                  * Hides the notice
                  * @returns void
                  */
-                function hideNotice() {
+                function hideNotice(shouldFade) {
                     const element = document.getElementById("notice-enrollment");
-                    element.style.display = "none";
-                    // this could be optimized so that when user go to another page come back they don't see the notice again...
+                    shouldFade ? noticeAnimations.fadeOut(element) : element.style.display = "none" // @shouldFade be false when we dont pass anything
+                        // this could be optimized so that when user go to another page come back they don't see the notice again...
                 }
 
                 /**
-                 * Sets the days left for the notice
+                 * Displays the correct number of days left for the notice
                  * - Note: we are not doing any validations here since we are already doing that in @showNotice
                  * @param {*} today
                  * @param {*} end
                  * @returns void
                  */
-                function setNoticeDays(today, end) {
+                function displayNumDays(today, end) {
                     const element = document.getElementById("notice-days");
                     const milliseconds = end - today;
                     const days = Math.ceil(milliseconds / (1000 * 60 * 60 * 24));
                     element.innerHTML = days; // here we could optimize to update the days within a certain interval
+                }
+
+                /*
+                 * Displays last day notice
+                 * @returns void
+                 */
+                function displayLastDayNotice() {
+                    const LAST_DAY_NOTICE = "TODAY IS THE LAST DAY OF OPEN ENROLLMENT"
+                    const element = document.getElementsByClassName("enrollment-time-left")[0]
+                    element.innerHTML = ''
+
+                    const em = document.createElement('EM')
+                    em.innerHTML = LAST_DAY_NOTICE
+                    element.appendChild(em)
                 }
             </script>
             <div class="container">
